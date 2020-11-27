@@ -40,27 +40,41 @@ jobs:
       
     - name: Build for MacOS (amd64)
       run: GOOS=darwin GOARCH=amd64 go build -o contactmanager_macos64 -v ./main.go
+    
+    - name: Give permission to execute
+      run: chmod +x contactmanager*
+    
+    - name: Strip all binaries
+      run: strip -s contactmanager*
 
     - name: Upload Win64 Artifact
       uses: actions/upload-artifact@v2.2.1
       with:
         name: contactmanager_win64.exe
-        path: contactmanager_win64.exe
+        path: |
+          contacts.txt
+          contactmanager_win64.exe
     
     - name: Upload Linux Artifact (amd64)
       uses: actions/upload-artifact@v2.2.1
       with:
         name: contactmanager_linux_amd64
-        path: contactmanager_linux_amd64
+        path: |
+          contacts.txt
+          contactmanager_linux_amd64
 
     - name: Upload Linux Artifact (arm64)
       uses: actions/upload-artifact@v2.2.1
       with:
         name: contactmanager_linux_arm64
-        path: contactmanager_linux_arm64
+        path: |
+          contacts.txt
+          contactmanager_linux_arm64
 
     - name: Upload MacOS Artifact (amd64)
       uses: actions/upload-artifact@v2.2.1
       with:
         name: contactmanager_macos64
-        path: contactmanager_macos64
+        path: |
+          contacts.txt
+          contactmanager_macos64
