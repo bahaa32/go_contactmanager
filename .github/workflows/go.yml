@@ -38,14 +38,14 @@ jobs:
     - name: Build for Linux (arm64)
       run: GOOS=windows GOARCH=amd64 go build -o contactmanager_linux_arm64 -v ./main.go
       
+    - name: Strip all binaries
+      run: strip -s contactmanager*
+      
     - name: Build for MacOS (amd64)
       run: GOOS=darwin GOARCH=amd64 go build -o contactmanager_macos64 -v ./main.go
     
     - name: Give permission to execute
       run: chmod +x contactmanager*
-    
-    - name: Strip all binaries
-      run: strip -s contactmanager*
 
     - name: Upload Win64 Artifact
       uses: actions/upload-artifact@v2.2.1
