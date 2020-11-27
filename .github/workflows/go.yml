@@ -4,8 +4,9 @@ name: Generate release-artifacts
 # on events
 on:
   push:
-    branches:
-      - master
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 # workflow tasks
 jobs:
