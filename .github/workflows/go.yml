@@ -30,13 +30,19 @@ jobs:
         fi
 
     - name: Build for Windows (amd64)
-      run: GOOS=windows GOARCH=amd64 go build -v ./main.go
+      run: GOOS=windows GOARCH=amd64 go build -o contactmanager_win64.exe -v ./main.go
       
     - name: Build for Linux (amd64)
-      run: GOOS=linux GOARCH=amd64 go build -v ./main.go
+      run: GOOS=linux GOARCH=amd64 go build -o contactmanager_linux_amd64 -v ./main.go
 
     - name: Build for Linux (arm64)
-      run: GOOS=windows GOARCH=amd64 go build -v ./main.go
+      run: GOOS=windows GOARCH=amd64 go build -o contactmanager_linux_arm64 -v ./main.go
       
     - name: Build for MacOS (amd64)
-      run: GOOS=darwin GOARCH=amd64 go build -v ./main.go
+      run: GOOS=darwin GOARCH=amd64 go build -o contactmanager_macos64 -v ./main.go
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: Contact Manager
+        path: contactmanager_*
