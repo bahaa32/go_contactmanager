@@ -1,80 +1,25 @@
-name: Go
+# workflow name
+name: Generate release-artifacts
 
+# on events
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  release:
+    types: 
+        - created
 
+# workflow tasks
 jobs:
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  generate:
+    name: Generate cross-platform builds
+    runs-on: ubuntu-20.04
     steps:
-
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.13
-
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
-
-    - name: Get dependencies
-      run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
-
-    - name: Build for Windows (amd64)
-      run: GOOS=windows GOARCH=amd64 go build -o contactmanager_win64.exe -v ./main.go
-      
-    - name: Build for Linux (amd64)
-      run: GOOS=linux GOARCH=amd64 go build -o contactmanager_linux_amd64 -v ./main.go
-
-    - name: Build for Linux (arm64)
-      run: GOOS=windows GOARCH=amd64 go build -o contactmanager_linux_arm64 -v ./main.go
-      
-    - name: Strip all binaries
-      run: strip -s contactmanager*
-      
-    - name: Build for MacOS (amd64)
-      run: GOOS=darwin GOARCH=amd64 go build -o contactmanager_macos64 -v ./main.go
-    
-    - name: Give permission to execute
-      run: chmod +x contactmanager*
-
-    - name: Upload Win64 Artifact
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        name: contactmanager_win64
-        path: |
-          contacts.txt
-          contactmanager_win64.exe
-    
-    - name: Upload Linux Artifact (amd64)
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        name: contactmanager_linux_amd64
-        path: |
-          contacts.txt
-          contactmanager_linux_amd64
-
-    - name: Upload Linux Artifact (arm64)
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        name: contactmanager_linux_arm64
-        path: |
-          contacts.txt
-          contactmanager_linux_arm64
-
-    - name: Upload MacOS Artifact (amd64)
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        name: contactmanager_macos64
-        path: |
-          contacts.txt
-          contactmanager_macos64
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Generate build files
+        uses: thatisuday/go-cross-build@v1
+        with:
+            platforms: 'linux/amd64, linux/arm64, darwin/amd64, windows/amd64'
+            package: 'main'
+            name: 'contactmanager'
+            compress: 'false'
+            dest: 'build/'
