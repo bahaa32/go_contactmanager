@@ -50,7 +50,7 @@ jobs:
     - name: Upload Win64 Artifact
       uses: actions/upload-artifact@v2.2.1
       with:
-        name: contactmanager_win64.exe
+        name: contactmanager_win64
         path: |
           contacts.txt
           contactmanager_win64.exe
