@@ -3,9 +3,9 @@ name: Generate release-artifacts
 
 # on events
 on:
-  release:
-    types: 
-        - created
+  push:
+    branches:
+      - master
 
 # workflow tasks
 jobs:
