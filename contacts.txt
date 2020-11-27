@@ -1,0 +1,4 @@
+Bill Jones | bjon@gmail.com | 520-999-8765
+Sam Dekker | dekker@apple.com | 123-456-7890
+Janet Keller | kel@yahoo.com | 456-2356
+James Jamie | jjamie@gmail.com | 435-234-2334
